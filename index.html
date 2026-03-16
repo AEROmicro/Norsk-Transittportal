@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Norsk Transittportal</title>
+        <link href="https://fonts.googleapis.com/css2?family=DotGothic16&family=Silkscreen&family=Share+Tech+Mono&family=Inter:wght@400;900&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="styles.css" />
+    </head>
+    <body>
+
+        <header>
+            <div style="font-size: 0.8rem; font-weight: 900; letter-spacing: 2px;">NORSK TRANSITTPORTAL</div>
+            <div id="current-time">00:00:00</div>
+        </header>
+        <div id="refresh-progress" class="refresh-bar"></div>
+
+        <div class="station-hero">
+            <h1 id="active-station-name">Loading...</h1>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 10px;">
+                <div style="display: flex; gap: 15px;">
+                    <span id="refresh-label" style="font-size: 0.6rem; color: #666;">AUTO-SYNC ACTIVE</span>
+                    <span id="timezone-label" style="font-size: 0.6rem; color: #666;">OSLO/CET</span>
+                </div>
+                <button id="fav-toggle-btn" onclick="toggleFavoriteCurrent()">⭐ SAVE</button>
+            </div>
+        </div>
+
+        <div class="search-container">
+            <input type="text" id="station-input" placeholder="Find a station..." autocomplete="off">
+            <div id="suggestions" style="position:absolute; background:#111; z-index:100; width:calc(100% - 50px); display:none; border:1px solid #333;"></div>
+        </div>
+
+        <main>
+            <div class="board-header">
+                <div id="h-time" data-t="time">Time</div>
+                <div id="h-line" data-t="line">Line</div>
+                <div id="h-dest" data-t="dest">Dest</div>
+                <div id="h-status" style="text-align:right" data-t="status">Status</div>
+            </div>
+            <div id="board-content"></div>
+        </main>
+
+        <footer>
+            <button id="f-favs" class="nav-btn" onclick="openFavs()">FAVORITES</button>
+            <button id="f-stats" class="nav-btn" onclick="toggleModal('stats-modal')">ANALYTICS</button>
+            <button id="f-config" class="nav-btn" onclick="toggleModal('settings-modal')">CONFIG</button>
+        </footer>
+
+        <div id="fav-modal" class="modal">
+            <div class="modal-content">
+                <h2 id="m-fav-title" style="margin-top:0">Saved Stations</h2>
+                <div id="fav-list"></div>
+                <button id="m-fav-close" onclick="toggleModal('fav-modal')" style="width:100%; padding:12px; margin-top:20px; border:1px solid #444; background:none; color:white;">CLOSE</button>
+            </div>
+        </div>
+
+        <div id="settings-modal" class="modal">
+            <div class="modal-content">
+                <h2 id="m-set-title" style="margin-top:0">Settings</h2>
+                <div class="setting-row">
+                    <span id="s-lang">Language</span>
+                    <select id="set-lang" onchange="updateSettings()">
+                        <option value="en">English</option>
+                        <option value="no">Norsk</option>
+                    </select>
+                </div>
+                <div class="setting-row">
+                    <span id="s-clock">Clock Mode</span>
+                    <select id="set-clock" onchange="updateSettings()">
+                        <option value="local">Device Time</option>
+                        <option value="no">Norway (CET)</option>
+                    </select>
+                </div>
+                <div class="setting-row">
+                    <span id="s-max">Max Entries</span>
+                    <input type="range" id="set-max" min="5" max="30" value="15" onchange="updateSettings()">
+                    <span id="max-val">15</span>
+                </div>
+                <button id="m-set-save" onclick="toggleModal('settings-modal')" style="width:100%; padding:12px; margin-top:20px; background:var(--no-red); color:white; border:none; cursor:pointer;">SAVE & EXIT</button>
+            </div>
+        </div>
+
+        <div id="stats-modal" class="modal">
+            <div class="modal-content">
+                <h2 id="m-stat-title">Live Analytics</h2>
+                <div id="stats-body"></div>
+                <button id="m-stat-close" onclick="toggleModal('stats-modal')" style="width:100%; padding:12px; margin-top:20px; border:1px solid #444; background:none; color:white;">CLOSE</button>
+            </div>
+        </div>
+
+        <div id="nerdy-modal" class="modal" onclick="this.style.display='none'">
+            <div class="modal-content" onclick="event.stopPropagation()">
+                <h3 style="color:var(--no-red); font-family:var(--dot-font)">ROUTE_DATA</h3>
+                <div id="nerdy-content"></div>
+            </div>
+        </div>
+
+        <script src="script.js"></script>
+    </body>
+</html>
