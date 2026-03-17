@@ -1,0 +1,16 @@
+{
+  "short_name": "Transitt",
+  "name": "Norsk Transittportal",
+  "icons": [
+    {
+      "src": "image.png",
+      "type": "image/png",
+      "sizes": "500x500",
+      "purpose": "any maskable"
+    }
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#00205B",
+  "background_color": "#000000"
+}
